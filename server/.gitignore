@@ -1,0 +1,18 @@
+# Node modules and logs
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# Environment files
+.env
+
+# Build outputs
+dist/
+build/
+
+# Optional: Ignore IDE settings
+.vscode/
+.idea/
+.DS_Store
