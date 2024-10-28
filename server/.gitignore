@@ -6,7 +6,7 @@ yarn-error.log
 pnpm-debug.log
 
 # Environment files
-.env
+# .env
 
 # Build outputs
 dist/
