@@ -1,34 +1,51 @@
 import { router } from "expo-router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-import { Colors } from '@/constants/Colors'; // Import your Colors constant
+import { Colors } from '@/constants/Colors';
 import { IChat } from "@/services/chat";
+import { useAuth } from "@/context/AuthContext";
 
-
-// Define props for the ChatItem component
 interface ChatItemProps {
     chat: IChat;
 }
 
 export default function ChatItem({ chat }: ChatItemProps) {
+    const { userDetails } = useAuth();
+    const [displayName, setDisplayName] = useState<string | null>(null);
+    const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+
     const handlePress = () => {
         const link = `/chats/${chat._id}` as const;
         router.push(link);
     };
 
+    useEffect(() => {
+        if (chat?.isGroup) {
+            setDisplayName(chat.roomName);
+            setAvatarUrl(chat.avatar || null);
+        } else {
+            const otherParticipant = chat.participants.find(participant => participant._id !== userDetails?._id);
+            setDisplayName(otherParticipant?.username || 'Unknown User');
+            setAvatarUrl(otherParticipant?.photo || null);
+        }
+    }, [chat, userDetails]);
+
     return (
         <TouchableOpacity onPress={handlePress} activeOpacity={0.7}>
             <View style={styles.container}>
-                <Image source={{ uri: chat.avatar }} style={styles.avatar} />
+                {avatarUrl ? (
+                    <Image source={{ uri: avatarUrl }} style={styles.avatar} />
+                ) : (
+                    <Image source={{ uri: 'https://picsum.photos/1' }} style={styles.avatar} />
+                )}
                 <View style={styles.infoContainer}>
-                    <Text style={styles.name}>{chat.roomName}</Text>
+                    <Text style={styles.name}>{displayName}</Text>
                     <Text style={styles.lastMessage}>{chat.lastMessage}</Text>
                 </View>
                 <View style={styles.timeContainer}>
                     <Text style={styles.lastMessageTimeStyle}>
                         {new Date(chat.updatedAt as Date).toLocaleString()}
                     </Text>
-
                 </View>
             </View>
         </TouchableOpacity>
@@ -40,9 +57,9 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         padding: 10,
         borderBottomWidth: 1,
-        borderBottomColor: Colors.borderColor, // Use border color from Colors
+        borderBottomColor: Colors.borderColor,
         alignItems: "center",
-        backgroundColor: Colors.surface, // Use surface color for background
+        backgroundColor: Colors.surface,
     },
     avatar: {
         width: 40,
@@ -51,8 +68,8 @@ const styles = StyleSheet.create({
     },
     infoContainer: {
         marginLeft: 10,
-        justifyContent: "center",
         flex: 1,
+        justifyContent: "center",
     },
     name: {
         fontSize: 16,
@@ -64,8 +81,8 @@ const styles = StyleSheet.create({
         color: Colors.textSecondary,
     },
     timeContainer: {
-        alignItems: "flex-end",
         justifyContent: "center",
+        alignItems: "flex-end",
     },
     lastMessageTimeStyle: {
         fontSize: 12,

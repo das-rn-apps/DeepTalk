@@ -1,15 +1,15 @@
-// components/MessageInput.tsx
+// components/ChatInput.tsx
 import React from "react";
 import { View, TextInput, TouchableOpacity, Text, StyleSheet } from "react-native";
 import { Colors } from '@/constants/Colors';
 
-interface MessageInputProps {
+interface ChatInputProps {
     newMessage: string;
     setNewMessage: (text: string) => void;
     handleSend: () => void;
 }
 
-const MessageInput: React.FC<MessageInputProps> = ({ newMessage, setNewMessage, handleSend }) => (
+const ChatInput: React.FC<ChatInputProps> = ({ newMessage, setNewMessage, handleSend }) => (
     <View style={styles.inputContainer}>
         <TextInput
             style={styles.input}
@@ -53,4 +53,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default MessageInput;
+export default ChatInput;

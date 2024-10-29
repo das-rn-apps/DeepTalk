@@ -7,7 +7,7 @@ import { useAuth } from "@/context/AuthContext";
 
 const Auth = () => {
     const [isLogin, setIsLogin] = useState(true);
-    const [email, setEmail] = useState("teacher@gmail.com");
+    const [email, setEmail] = useState("@gmail.com");
     const [password, setPassword] = useState("teacher");
     const [username, setUsername] = useState("");
 

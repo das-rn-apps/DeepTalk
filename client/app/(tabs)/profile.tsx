@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useAuth } from '@/context/AuthContext';
+import { router } from 'expo-router';
 
 const Profile = () => {
     const { logout } = useAuth();
@@ -12,9 +13,8 @@ const Profile = () => {
                 // Handle Privacy navigation or action
                 console.log('Privacy selected');
                 break;
-            case 'Chats':
-                // Handle Chats navigation or action
-                console.log('Chats selected');
+            case 'Groups':
+                router.push('/chats/addGroup')
                 break;
             case 'Notifications':
                 // Handle Notifications navigation or action
@@ -65,9 +65,9 @@ const Profile = () => {
                     <Text style={styles.optionText}>Privacy</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.row} onPress={() => handlePress('Chats')}>
+                <TouchableOpacity style={styles.row} onPress={() => handlePress('Groups')}>
                     <Ionicons name="chatbubbles" size={24} color="green" />
-                    <Text style={styles.optionText}>Chats</Text>
+                    <Text style={styles.optionText}>Groups</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.row} onPress={() => handlePress('Notifications')}>
