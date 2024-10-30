@@ -61,7 +61,7 @@ const AddGroup = () => {
             />
             <FlatList
                 data={participants}
-                keyExtractor={(item) => item._id}
+                keyExtractor={(item) => item._id || "hfhf"}
                 renderItem={({ item }) => (
                     <TouchableOpacity onPress={() => toggleUserSelection(item)} style={styles.userItem}>
                         <Text style={styles.userName}>{item.username}</Text>
